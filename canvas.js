@@ -1,18 +1,23 @@
 var canvas = document.getElementById("myCanvas");
 var context = canvas.getContext("2d");
 
-// establish canvas elements width and height
-// canvas.width = window.innerWidth - 20; // -20 = width margin
-// canvas.height = window.innerHeight - 100; // -100 = height margin
+var canvasBorder = document.getElementById("canvasBorder");
+let borderWidth = parseInt(canvasBorder.style.borderWidth);
 
 var cellWidth = 20;
 var cellHeight = 20;
-var lineWidth = 1;
+var lineThickness = 2;
 var rowCount = 25;
 var colCount = 25;
 
-canvas.width = (colCount * cellWidth) + ((colCount * lineWidth) - 2); // -2 is to account for the outside(top,bottom,left,right) grid lines that the canvas border consists of
-canvas.height = (rowCount * cellHeight) + ((rowCount * lineWidth) - 2); // same explanation as ^
+var fullCellWidth = cellWidth + (lineThickness * 2);
+var fullCellHeight = cellHeight + (lineThickness * 2);
+
+canvas.width = (colCount * fullCellWidth);
+canvas.height = (rowCount * fullCellHeight);
+
+
+var cells = Array(rowCount).fill().map(() => Array(colCount).fill(false));
 
 var simMinWidth = 20.0;
 var canvasScale = Math.min(canvas.width, canvas.height) / simMinWidth;
@@ -28,29 +33,40 @@ function getCanvasY(pos) {
 }
 
 function draw() {
-    // draw grid lines
+    // clear the canvas
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    // style the grid lines
-    context.fillStyle = "#000000";
-    context.lineWidth = 1;
+    // style the grid cells
+    context.fillStyle = "black";
+    context.strokeStyle = "black";
+    context.lineWidth = lineThickness;
 
-    // r = rows
-    for (let row = 0; row < rowCount; row++) {
-        context.beginPath();
-        context.moveTo(row * (cellHeight + lineWidth), 0);
-        context.lineTo(row * (cellHeight + lineWidth), canvas.width);
-        context.closePath();
-        context.stroke();
+    // draw the cells
+    for (let y = 0; y < colCount; y++) {
+        for (let x = 0; x < rowCount; x++) {
+            context.beginPath();
+            context.rect(x * fullCellWidth, y * fullCellHeight, fullCellWidth, fullCellHeight);
+            context.stroke();
+        }
     }
 
-    // c = columns
-    for (let col = 0; col < colCount; col++) {
-        context.beginPath();
-        context.moveTo(0, col * (cellWidth + lineWidth));
-        context.lineTo(canvas.height, col * (cellWidth + lineWidth));
-        context.closePath();
-        context.stroke();
+    // draw cells
+    for (let y = 0; y < colCount; y++) {
+        for (let x = 0; x < rowCount; x++) {
+            if (cells[x][y]) {
+                // determine the location of the cell in pixels on the canvas
+                let pixelX = (x * fullCellWidth) + lineThickness;
+                let pixelY = (y * fullCellHeight) + lineThickness;
+
+                // fill in the cell
+                context.strokeStyle = "red";
+                context.fillStyle = "red";
+                context.beginPath();
+                context.rect(pixelX, pixelY, cellWidth, cellHeight);
+                context.stroke();
+                context.fill();
+            }
+        }
     }
 }
 
@@ -61,7 +77,7 @@ function simulate() {
 function update() {
     simulate();
     draw();
-    window.requestAnimationFrame();
+    window.requestAnimationFrame(update);
 }
 
 update();

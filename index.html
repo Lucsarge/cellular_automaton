@@ -4,9 +4,11 @@
         <title>Cellular Automaton</title>
     </head>
 
-    <body>
+    <body style="margin: 0;">
         <!-- Grouping together since "myCanvas" is referenced in the "canvas.js" file -->
-        <canvas id="myCanvas" style="border:5px solid #000000"></canvas>
+        <div id="canvasBorder" style="border: 2px solid; display: inline-block;">
+            <canvas id="myCanvas" style="display: block;"></canvas>
+        </div>
         <script src="canvas.js"></script>
     </body>
 </html>
