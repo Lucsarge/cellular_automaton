@@ -19,6 +19,9 @@ canvas.height = (rowCount * fullCellHeight);
 
 var cells = Array(rowCount).fill().map(() => Array(colCount).fill(false));
 
+let mouseX = 0;
+let mouseY = 0;
+
 var simMinWidth = 20.0;
 var canvasScale = Math.min(canvas.width, canvas.height) / simMinWidth;
 var simMinWidth = canvas.width / canvasScale;
@@ -68,10 +71,35 @@ function draw() {
             }
         }
     }
+
+    // draw mouse position
+    context.fillStyle = "green";
+    context.beginPath();
+    context.arc(mouseX, mouseY, 5, 0.0, 2.0 * Math.PI);
+    context.closePath();
+    context.fill();
 }
 
 function simulate() {
 
+}
+
+// -1 is accounting for the thickness of the border
+function handleMouseMove(e) {
+    mouseX = e.clientX - borderWidth;
+    mouseY = e.clientY - borderWidth;
+}
+
+function handleMouseUp(e) {
+    let x = e.clientX - borderWidth;
+    let y = e.clientY - borderWidth;
+
+    x = ~~(x / fullCellWidth);
+    y = ~~(y / fullCellHeight);
+
+    console.log(x + ", " + y);
+
+    cells[x][y] = true;
 }
 
 function update() {
@@ -80,4 +108,6 @@ function update() {
     window.requestAnimationFrame(update);
 }
 
+canvas.onmousemove = handleMouseMove;
+canvas.onmouseup = handleMouseUp;
 update();
