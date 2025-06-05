@@ -37,9 +37,6 @@ function initializeArray() {
             cells[x][y] = new Cell(x, y, Particle.EMPTY);
         }
     }
-
-    let roughMiddle = ~~(rowCount / 2)
-    cells[roughMiddle][0].particle = Particle.SAND;
 }
 
 function getParticleColor(particle) {
@@ -157,10 +154,10 @@ function handleMouseUp(e) {
 }
 
 // for debug purposes, allows for single stepping of the program
-function Toggle() {
-    simulate();
-    draw();
-}
+// function Toggle() {
+//     simulate();
+//     draw();
+// }
 
 function placeParticle() {
     let x = mouseX - borderWidth;
