@@ -1,0 +1,26 @@
+{
+  "name": "cellular_automaton",
+  "version": "1.0.0",
+  "description": "Exploration and demonstration of cellular automata.",
+  "main": "falling_sand.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lucsarge/cellular_automaton.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lucsarge/cellular_automaton/issues"
+  },
+  "homepage": "https://github.com/Lucsarge/cellular_automaton#readme",
+  "dependencies": {
+    "pixi.js": "^8.15.0"
+  },
+  "devDependencies": {
+    "vite": "^7.3.1"
+  }
+}
